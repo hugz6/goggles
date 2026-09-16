@@ -1,0 +1,36 @@
+version: "3"
+
+vars:
+  VERSION:
+    sh: git describe --tags --always --dirty 2>/dev/null || echo dev
+
+tasks:
+  build:
+    desc: Build the frontend and embed it into the Go binary
+    cmds:
+      - cd frontend && npm ci && npm run build
+      - cd backend && go build -ldflags "-X main.version={{.VERSION}}" -o g5s ./cmd/g5s
+
+  test:
+    desc: Run backend and frontend tests
+    cmds:
+      - cd backend && go test ./...
+      - cd frontend && npm run test
+
+  check:
+    desc: Vet, format-check, and typecheck
+    cmds:
+      - cd backend && go vet ./... && gofmt -l .
+      - cd frontend && npm run typecheck
+
+  run:
+    desc: "Build then launch g5s (pass flags after --, e.g. task run -- --snapshot fixtures/medium.json)"
+    deps: [build]
+    cmds:
+      - ./backend/g5s {{.CLI_ARGS}}
+
+  clean:
+    desc: Remove build artifacts
+    cmds:
+      - rm -f backend/g5s
+      - rm -rf backend/internal/webui/dist/assets
