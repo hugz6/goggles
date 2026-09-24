@@ -7,6 +7,11 @@ around with the mouse and move the selection with the arrow keys.
 It is read-only. g5s lists objects, it never writes anything back to the
 cluster.
 
+![One namespace opened up: the Deployment → ReplicaSet → Pod chain, its
+services and volumes, red rings on the pods in trouble](assets/screenshot.png)
+
+*`fixtures/medium.json`, roughly 200 pods, after diving into `team-0`.*
+
 > Study project. I mostly wrote it to learn how far agentic coding goes with
 > the current Claude and Antigravity tooling, so treat it as an experiment, not
 > as an ops tool.
