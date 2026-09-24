@@ -26,6 +26,9 @@ archives:
       - goos: windows
         formats: [zip]
 
+release:
+  prerelease: auto # -beta / -rc tags land as prereleases
+
 checksum:
   name_template: checksums.txt
 
